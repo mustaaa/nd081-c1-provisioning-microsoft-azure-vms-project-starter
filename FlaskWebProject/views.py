@@ -96,11 +96,13 @@ def authorized():
         # Here, we'll use the admin username for anyone who is authenticated by MS
         user = User.query.filter_by(username="admin").first()
         login_user(user)
+        app.logger.critical("User logged in successfully")
         _save_cache(cache)
     return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():
+    app.logger.critical("Logging out")
     logout_user()
     if session.get("user"): # Used MS Login
         # Wipe out user and its token cache from session
